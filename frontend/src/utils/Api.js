@@ -1,4 +1,4 @@
-
+import {token} from '../components/App';
 
 class Api {
     constructor({baseUrl, authorization, userId}) {
@@ -10,7 +10,7 @@ class Api {
 
 
     getInfoAboutUser() {
-        return fetch(`${this._url}/v1/${this._userId}/users/me`, {
+        return fetch(`${this._url}/users/me`, {
             headers: {
                 authorization: this._token
                 }
@@ -19,7 +19,7 @@ class Api {
     }
 
     getInitialCards() {
-        return fetch(`${this._url}/v1/${this._userId}/cards`, {
+        return fetch(`${this._url}/cards`, {
             headers: {
                 authorization: this._token
                 }
@@ -28,7 +28,7 @@ class Api {
     }
 
     editUserProfile(data) {
-        return fetch(`${this._url}/v1/${this._userId}/users/me`, {
+        return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
@@ -44,7 +44,7 @@ class Api {
     }
 
     sentNewCard(data) {
-        return fetch(`${this._url}/v1/${this._userId}/cards`, {
+        return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: {
                 authorization: this._token,
@@ -59,7 +59,7 @@ class Api {
     }
 
     editAvatar(data) {
-        return fetch(`${this._url}/v1/${this._userId}/users/me/avatar`, {
+        return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: {
                 authorization: this._token,
@@ -73,7 +73,7 @@ class Api {
     }
 
     updateLikes(liked, id) {
-        return fetch(`${this._url}/v1/${this._userId}/cards/likes/${id}`, {
+        return fetch(`${this._url}/cards/${id}/likes`, {
             method: liked ? 'DELETE' : 'PUT',
             headers: {
                 authorization: this._token,
@@ -87,7 +87,7 @@ class Api {
     }
 
     deleteCard(data) {
-      return fetch(`${this._url}/v1/${this._userId}/cards/${data}`, {
+      return fetch(`${this._url}/cards/${data}`, {
         method: 'DELETE',
         headers: {
           authorization: this._token
@@ -101,10 +101,16 @@ class Api {
     }
 }
 
-const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co',
-    authorization: 'b6b35178-16fa-4e7f-8f36-adf75a68e4d9',
-    userId: 'cohort-26'
-  })
+// const api = new Api({
+//     baseUrl: 'https://mesto.nomoreparties.co',
+//     authorization: 'b6b35178-16fa-4e7f-8f36-adf75a68e4d9',
+//     userId: 'cohort-26'
+//   })
+
+const api = new Api ({
+    baseUrl: 'api.mesto-vladimir.nomoredomains.rocks',
+    authorization: `${token}`,
+    userId: '',
+})
 
 export default api

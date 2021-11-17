@@ -1,5 +1,5 @@
 
-const BaseUrl = 'https://auth.nomoreparties.co'
+const BaseUrl = 'api.mesto-vladimir.nomoredomains.rocks'
 
    export const register = (email, password) => {
         return fetch(`${BaseUrl}/signup`, {

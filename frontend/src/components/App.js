@@ -17,11 +17,13 @@ import * as apiAuth from '../utils/apiAuth';
 import { ProtectedRoute } from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import disaster from '../images/disaster.png';
-import success from '../images/success.png'
+import success from '../images/success.png';
+let token;
 
 
 
- export function App() {
+function App() {
+
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const handleIsLoggedIn = () => {
@@ -34,7 +36,7 @@ import success from '../images/success.png'
 
   const tokenCheck = () => {
     if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt')
+      token = localStorage.getItem('jwt')
       apiAuth.getDataUser(token)
       .then(res => {
         if (res) {
@@ -274,3 +276,5 @@ import success from '../images/success.png'
       </div>
     )
   }
+
+  export {App, token};

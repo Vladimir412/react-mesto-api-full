@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
 const express = require('express');
@@ -24,8 +25,22 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const allowedCors = [
   'http://mesto-vladimir.nomoredomains.rocks',
+  'http://mesto-vladimir.nomoredomains.rocks/signin',
+  'http://mesto-vladimir.nomoredomains.rocks/signup',
+  'http://mesto-vladimir.nomoredomains.rocks/users',
+  'http://mesto-vladimir.nomoredomains.rocks/cards',
+  'http://mesto-vladimir.nomoredomains.rocks/main',
   'https://mesto-vladimir.nomoredomains.rocks',
-  'localhost:3000',
+  'https://mesto-vladimir.nomoredomains.rocks/signin',
+  'https://mesto-vladimir.nomoredomains.rocks/signup',
+  'https://mesto-vladimir.nomoredomains.rocks/users',
+  'https://mesto-vladimir.nomoredomains.rocks/cards',
+  'https://mesto-vladimir.nomoredomains.rocks/main',
+  'localhost:3000/signin',
+  'localhost:3000/signup',
+  'localhost:3000/users',
+  'localhost:3000/cards',
+  'localhost:3000/main',
 ];
 
 const app = express();
@@ -52,6 +67,15 @@ app.use((req, res, next) => {
 
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  const { method } = req;
+
+  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+
+  if (method === 'OPTIONS') {
+    res.headers('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+    return res.end();
   }
 
   next();

@@ -17,7 +17,7 @@ const BaseUrl = 'http://api.mesto-vladimir.nomoredomains.rocks'
             method: 'POST',
             headers: {
                 "Origin": "http://mesto-vladimir.nomoredomains.rocks",
-                "Host": "http://api.mesto-vladimir.nomoredomains.rocks/",
+                "Host": "http://api.mesto-vladimir.nomoredomains.rocks",
                 "Content-Type": "application/json" 
             },
             body: JSON.stringify({email, password})

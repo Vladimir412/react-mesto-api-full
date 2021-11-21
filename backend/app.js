@@ -22,6 +22,12 @@ const {
 } = require('./routes/cards');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const allowedCors = [
+  'http://mesto-vladimir.nomoredomains.rocks',
+  'https://mesto-vladimir.nomoredomains.rocks',
+  'localhost:3000',
+];
+
 const app = express();
 const {
   PORT = 3000,
@@ -40,6 +46,16 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(express.static(path.join(__dirname, 'express-mesto')));
 
 app.use(requestLogger);
+
+app.use((req, res, next) => {
+  const { origin } = req.headers;
+
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+});
 
 app.use(routerRegister);
 app.use(routerLoginUser);

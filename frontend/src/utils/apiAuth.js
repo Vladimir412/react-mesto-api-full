@@ -1,5 +1,5 @@
 
-const BaseUrl = 'api.mesto-vladimir.nomoredomains.rocks'
+const BaseUrl = 'http://api.mesto-vladimir.nomoredomains.rocks'
 
    export const register = (email, password) => {
         return fetch(`${BaseUrl}/signup`, {
@@ -16,6 +16,8 @@ const BaseUrl = 'api.mesto-vladimir.nomoredomains.rocks'
         return fetch(`${BaseUrl}/signin`, {
             method: 'POST',
             headers: {
+                "Origin": "http://mesto-vladimir.nomoredomains.rocks",
+                "Host": "http://api.mesto-vladimir.nomoredomains.rocks/",
                 "Content-Type": "application/json" 
             },
             body: JSON.stringify({email, password})

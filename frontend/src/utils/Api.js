@@ -1,10 +1,10 @@
 import {token} from '../components/App';
 
 class Api {
-    constructor({baseUrl, authorization, userId}) {
+    constructor({baseUrl, authorization}) {
         this._url = baseUrl;
         this._token = authorization;
-        this._userId = userId;
+        // this._userId = userId;
     }
 
 
@@ -110,7 +110,7 @@ class Api {
 const api = new Api ({
     baseUrl: 'api.mesto-vladimir.nomoredomains.rocks',
     authorization: `${token}`,
-    userId: '',
+    // userId: '',
 })
 
 export default api

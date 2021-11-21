@@ -64,7 +64,7 @@ function App() {
       setCurrentUser(data)
     })
     .catch(res => console.log(res))
-  }, [])
+  }, [isLoggedIn])
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
   function handleEditProfileClick() {
@@ -166,7 +166,7 @@ function App() {
       setCards(arrCards)
     })
     .catch(err => console.log(err))
-  }, [])
+  }, [isLoggedIn])
 
 
   function handleCardLike(card) {

@@ -25,7 +25,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const allowedCors = [
   'http://mesto-vladimir.nomoredomains.rocks',
-  'http://mesto-vladimir.nomoredomains.rocks/signin',
+  'http://mesto-vladimir.nomoredomains.rocks/login',
   'http://mesto-vladimir.nomoredomains.rocks/signup',
   'http://mesto-vladimir.nomoredomains.rocks/users',
   'http://mesto-vladimir.nomoredomains.rocks/cards',

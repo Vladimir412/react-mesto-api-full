@@ -116,7 +116,7 @@ app.use((err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === 500
-        ? 'Произошла ошибка'
+        ? 'Произошла ошибка!'
         : message,
     });
 });

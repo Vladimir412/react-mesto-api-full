@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const path = require('path');
@@ -44,6 +45,8 @@ const allowedCors = [
 ];
 
 const app = express();
+app.use(cors());
+app.options('*', cors());
 const {
   PORT = 3000,
 } = process.env;

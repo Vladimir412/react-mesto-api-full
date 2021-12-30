@@ -19,14 +19,14 @@ function Main(props) {
         <main>
         <div className="profile">
               <button className="button-avatar" type="button" onClick={props.onEditAvatar}>
-                < img className="profile__avatar" src={currentUser.avatar}  alt="аватар пользователя" />
+                < img className="profile__avatar" src={currentUser.user.avatar}  alt="аватар пользователя" />
               </button>
             <div className="profile__info">
-              <h1 className="profile__title">{currentUser.name}</h1>
+              <h1 className="profile__title">{currentUser.user.name}</h1>
               <button className="button-edit" type="button" onClick={props.onEditProfile}>
                 <img className="profile__edit" src={pictureProfileEdit}  alt="Редактировать профиль" />
               </button>
-              <p className="profile__subtitle">{currentUser.about}</p>
+              <p className="profile__subtitle">{currentUser.user.about}</p>
             </div>
             <button className="button-plus" type="button" onClick={props.onAddPlace}>
               <img className="profile__plus" src={pictureAddCard} alt="Добавить карточку" />

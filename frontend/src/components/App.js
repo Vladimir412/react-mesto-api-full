@@ -32,7 +32,7 @@ function App() {
   
   const history = useHistory()
 
-  const [dataUserForHomePage, setDataUserForHomePage] = React.useState({id:'', email:''})
+  const [dataUserForHomePage, setDataUserForHomePage] = React.useState({user: {id:'', email:''}})
 
   const tokenCheck = () => {
     if (localStorage.getItem('jwt')) {
@@ -45,6 +45,7 @@ function App() {
             id: res.data._id,
             email: res.data.email
           })
+          console.log(dataUserForHomePage)
           history.push('/main')
         }
       })
@@ -56,7 +57,7 @@ function App() {
     tokenCheck()
   }, [isLoggedIn])
 
-  const [currentUser, setCurrentUser] = React.useState({name: "", about: ""})
+  const [currentUser, setCurrentUser] = React.useState({user:{name: "", about: ""}})
 
   React.useEffect(() => {
     api.getInfoAboutUser()

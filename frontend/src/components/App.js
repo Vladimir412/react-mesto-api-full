@@ -18,7 +18,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import disaster from '../images/disaster.png';
 import success from '../images/success.png';
-let token;
+// let token;
 
 
 
@@ -36,17 +36,17 @@ function App() {
 
   const tokenCheck = () => {
     if (localStorage.getItem('jwt')) {
-      token = localStorage.getItem('jwt')
+      const token = localStorage.getItem('jwt')
       apiAuth.getDataUser(token)
       .then(res => {
         if (res) {
-          console.log(res)
           handleIsLoggedIn(true)
           setDataUserForHomePage({
-            id: res.data._id,
-            email: res.data.email
+            id: res.user._id,
+            // id: res.data._id,
+            email: res.user.email
+            // email: res.data.email
           })
-          console.log(dataUserForHomePage);
           history.push('/main');
         }
       })
@@ -56,19 +56,16 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck()
-    console.log('working')
   }, [isLoggedIn])
 
   const [currentUser, setCurrentUser] = React.useState({user:{name: "", about: ""}})
 
   React.useEffect(() => {
     api.getInfoAboutUser()
-    .then((user) => {
-      console.log(user)
-      console.log(currentUser)
-      setCurrentUser(user)
+    .then((res) => {
+      setCurrentUser(res)
     })
-    .catch(res => console.log(res))
+    .catch(err => console.log(err))
   }, [isLoggedIn])
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
@@ -112,13 +109,11 @@ function App() {
 
   function handleLogin(email, password) {
     apiAuth.login(email, password)
-    .then((token) => {
+    .then((res) => {
         // if (res) {
         //     localStorage.setItem('jwt', res.token);
-        if (token) {
-          console.log(token)
-            localStorage.setItem('jwt', token);
-            console.log(isLoggedIn)
+        if (res) {
+            localStorage.setItem('jwt', res.token);
             handleIsLoggedIn(true)
             history.push('/main')
             console.log(isLoggedIn)
@@ -290,4 +285,4 @@ function App() {
     )
   }
 
-  export {App, token};
+  export {App};

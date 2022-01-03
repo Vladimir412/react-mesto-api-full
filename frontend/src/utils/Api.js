@@ -1,4 +1,3 @@
-import {token} from '../components/App';
 
 class Api {
     constructor({baseUrl, authorization}) {
@@ -14,8 +13,8 @@ class Api {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                authorization: `Bearer ${localStorage.getItem('jwt')}`
-                // authorization: this._token
+                // authorization: `Bearer ${localStorage.getItem('jwt')}`
+                authorization: this._token
                 }
         })
         .then(this._checkResponse)
@@ -24,7 +23,8 @@ class Api {
     getInitialCards() {
         return fetch(`${this._url}/cards`, {
             headers: {
-                authorization: this._token
+                authorization: this._token,
+                "Accept": "text/html, application/xhtml+xml"
                 }
             })
             .then(this._checkResponse)
@@ -34,7 +34,8 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: {
-                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
             },
@@ -51,8 +52,8 @@ class Api {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: {
-                authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                // authorization: this._token,
+                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
             },
@@ -68,8 +69,8 @@ class Api {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: {
-                authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                // authorization: this._token,
+                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
             },
@@ -84,8 +85,8 @@ class Api {
         return fetch(`${this._url}/cards/${id}/likes`, {
             method: liked ? 'DELETE' : 'PUT',
             headers: {
-                authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                // authorization: this._token,
+                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
             },
@@ -100,15 +101,14 @@ class Api {
       return fetch(`${this._url}/cards/${data}`, {
         method: 'DELETE',
         headers: {
-            authorization: `Bearer ${localStorage.getItem('jwt')}`,
-        //   authorization: this._token
+            // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          authorization: this._token
         }
       })
       .then(this._checkResponse)
     }
 
     _checkResponse(res) {
-        console.log(this.token)
         return res.ok? res.json() : Promise.reject(`Ошибка: ${res}`)
     }
 }
@@ -120,8 +120,8 @@ class Api {
 //   })
 
 const api = new Api ({
-    baseUrl: 'api.mesto-vladimir.nomoredomains.rocks',
-    authorization: `${token}`,
+    baseUrl: 'http://api.mesto-vladimir.nomoredomains.rocks',
+    authorization: `Bearer ${localStorage.getItem('jwt')}`
     // userId: '',
 })
 

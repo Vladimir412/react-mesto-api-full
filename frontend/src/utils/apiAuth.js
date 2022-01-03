@@ -16,9 +16,8 @@ const BaseUrl = 'http://api.mesto-vladimir.nomoredomains.rocks'
         return fetch(`${BaseUrl}/signin`, {
             method: 'POST',
             headers: {
-                // "Origin": "http://mesto-vladimir.nomoredomains.rocks",
-                // "Host": "http://api.mesto-vladimir.nomoredomains.rocks",
-                "Content-Type": "application/json" 
+                "Content-Type": "application/json",
+                "Accept": "text/html, application/xhtml+xml"
             },
             body: JSON.stringify({email, password})
         })
@@ -33,7 +32,7 @@ const BaseUrl = 'http://api.mesto-vladimir.nomoredomains.rocks'
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization" : `Bearer ${token}`
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
             }
         })
         .then(checkResponse)

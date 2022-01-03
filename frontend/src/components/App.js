@@ -29,7 +29,7 @@ function App() {
   const handleIsLoggedIn = () => {
     setIsLoggedIn(true)
   }
-  
+
   const history = useHistory()
 
   const [dataUserForHomePage, setDataUserForHomePage] = React.useState({user: {id:'', email:''}})
@@ -40,13 +40,14 @@ function App() {
       apiAuth.getDataUser(token)
       .then(res => {
         if (res) {
+          console.log(res)
           handleIsLoggedIn(true)
           setDataUserForHomePage({
             id: res.data._id,
             email: res.data.email
           })
-          console.log(dataUserForHomePage)
-          history.push('/main')
+          console.log(dataUserForHomePage);
+          history.push('/main');
         }
       })
       .catch(err => console.log(err))
@@ -55,14 +56,17 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck()
+    console.log('working')
   }, [isLoggedIn])
 
   const [currentUser, setCurrentUser] = React.useState({user:{name: "", about: ""}})
 
   React.useEffect(() => {
     api.getInfoAboutUser()
-    .then((data) => {
-      setCurrentUser(data)
+    .then((user) => {
+      console.log(user)
+      console.log(currentUser)
+      setCurrentUser(user)
     })
     .catch(res => console.log(res))
   }, [isLoggedIn])
@@ -108,11 +112,17 @@ function App() {
 
   function handleLogin(email, password) {
     apiAuth.login(email, password)
-    .then((res) => {
-        if (res) {
-            localStorage.setItem('jwt', res.token);
+    .then((token) => {
+        // if (res) {
+        //     localStorage.setItem('jwt', res.token);
+        if (token) {
+          console.log(token)
+            localStorage.setItem('jwt', token);
+            console.log(isLoggedIn)
             handleIsLoggedIn(true)
             history.push('/main')
+            console.log(isLoggedIn)
+
         }
     })
     .catch(err => console.log(err))
@@ -194,8 +204,10 @@ function App() {
   }
   
   function handleUpdateUser(dataPopup) {
+    console.log(dataPopup)
     api.editUserProfile(dataPopup)
     .then((data) => {
+      console.log(data)
      setCurrentUser(data)
      closeAllPopups()
     })

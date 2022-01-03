@@ -11,8 +11,11 @@ class Api {
 
     getInfoAboutUser() {
         return fetch(`${this._url}/users/me`, {
+            method: 'GET',
             headers: {
-                authorization: this._token
+                "Content-Type": "application/json",
+                authorization: `Bearer ${localStorage.getItem('jwt')}`
+                // authorization: this._token
                 }
         })
         .then(this._checkResponse)
@@ -31,8 +34,9 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: {
-                authorization: this._token,
-                'Content-Type': 'application/json'
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+                "Accept": "text/html, application/xhtml+xml"
             },
             body: JSON.stringify({
                 name: data.firstname,
@@ -47,8 +51,10 @@ class Api {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: {
-                authorization: this._token,
-                'Content-Type': 'application/json'
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                // authorization: this._token,
+                'Content-Type': 'application/json',
+                "Accept": "text/html, application/xhtml+xml"
             },
             body: JSON.stringify({
                 name: data.name,
@@ -62,8 +68,10 @@ class Api {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: {
-                authorization: this._token,
-                'Content-Type': 'application/json'
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                // authorization: this._token,
+                'Content-Type': 'application/json',
+                "Accept": "text/html, application/xhtml+xml"
             },
             body: JSON.stringify({
                 avatar: data.avatar
@@ -76,8 +84,10 @@ class Api {
         return fetch(`${this._url}/cards/${id}/likes`, {
             method: liked ? 'DELETE' : 'PUT',
             headers: {
-                authorization: this._token,
-                'Content-Type': 'application/json'
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                // authorization: this._token,
+                'Content-Type': 'application/json',
+                "Accept": "text/html, application/xhtml+xml"
             },
             body: JSON.stringify({
                 _id: id
@@ -90,13 +100,15 @@ class Api {
       return fetch(`${this._url}/cards/${data}`, {
         method: 'DELETE',
         headers: {
-          authorization: this._token
+            authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        //   authorization: this._token
         }
       })
       .then(this._checkResponse)
     }
 
     _checkResponse(res) {
+        console.log(this.token)
         return res.ok? res.json() : Promise.reject(`Ошибка: ${res}`)
     }
 }

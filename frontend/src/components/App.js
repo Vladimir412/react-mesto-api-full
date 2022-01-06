@@ -26,26 +26,20 @@ function App() {
   const api = new Api ({
     baseUrl: 'http://api.mesto-vladimir.nomoredomains.rocks',
     authorization: `Bearer ${localStorage.getItem('jwt')}`
-    // userId: '',
 })
 
-// console.log('gg');
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const handleIsLoggedIn = () => {
     setIsLoggedIn(true)
   }
 
   function handleLogin(email, password) {
-    // console.log(email + ' ' + 'App');
     apiAuth.login(email, password)
     .then((res) => {
         if (res) {
             localStorage.setItem('jwt', res.token);
-            // console.log('до переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
             handleIsLoggedIn(true)
-            // console.log('после переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
             history.push('/main')
-            // console.log('4');
         }
     })
     .catch(err => console.log(err))
@@ -129,22 +123,6 @@ function App() {
         })
   }
 
-  // function handleLogin(email, password) {
-  //   // console.log(email + ' ' + 'App');
-  //   apiAuth.login(email, password)
-  //   .then((res) => {
-  //       if (res) {
-  //           localStorage.setItem('jwt', res.token);
-  //           // console.log('до переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
-  //           handleIsLoggedIn(true)
-  //           // console.log('после переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
-  //           history.push('/main')
-  //           // console.log('4');
-  //       }
-  //   })
-  //   .catch(err => console.log(err))
-  // }
-
   const [selectedCard, setSelectedCard] = React.useState(null)
   function handleCardClick (card) {
     setSelectedCard(card)
@@ -182,7 +160,6 @@ function App() {
     api.getInitialCards()
     .then((data) => {
       const arrCards = data.cards.map((card) => {
-      // const arrCards = data.cards.map((card) => {
         return {
           key: card._id,
           id: card._id,
@@ -193,8 +170,7 @@ function App() {
           likes: card.likes
         }
       })
-      setCards(arrCards)
-      // console.log('3');
+      setCards(arrCards.reverse())
     })
     
     .catch(err => console.log(err))
@@ -204,17 +180,13 @@ function App() {
   function handleCardLike(card) {
     console.log(card);
     const isLiked = card.likes.some(i => i === currentUser.user._id);
-    // const isLiked = card.likes.some(i => i._id === currentUser.user._id);
     console.log(isLiked);
     api.updateLikes(isLiked, card.id)
     .then((newCard) => {
       const newCardFromServer = newCard.card
       newCardFromServer.key = card.id
       newCardFromServer.id = card.id
-      // const newCardFromServer = newCard.card
-      console.log(newCardFromServer);
       setCards((state) => {
-        console.log(state);
         return state.map(c => c.id === card.id ? newCardFromServer : c)
       })
     })
@@ -232,7 +204,6 @@ function App() {
   }
   
   function handleUpdateUser(dataPopup) {
-    console.log(dataPopup)
     api.editUserProfile(dataPopup)
     .then((data) => {
       console.log(data)
@@ -255,7 +226,6 @@ function App() {
     api.sentNewCard(data)
     .then((newCard) => {
       const newCardFromServer = newCard.card
-      console.log(newCard);
       newCardFromServer.key = newCardFromServer._id
       newCardFromServer.id = newCardFromServer._id
       setCards([newCardFromServer, ...cards])
@@ -274,7 +244,6 @@ function App() {
     return (
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
-          {/* Честно говоря не сообразил как с Main это реализовать */}
         <Switch>
           <Route path="/main">
             <Header

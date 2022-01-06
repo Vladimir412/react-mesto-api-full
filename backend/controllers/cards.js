@@ -71,7 +71,7 @@ const addCardLike = (req, res, next) => {
         throw new ErrorUserUndefined('Передан несуществующий _id карточки.');
       }
       return res.send({
-        data: card,
+        card,
       });
     })
     .catch((err) => {
@@ -92,7 +92,7 @@ const deleteCardLike = (req, res, next) => Card.findByIdAndUpdate(req.params.car
   .then((card) => {
     if (card) {
       return res.send({
-        data: card,
+        card,
       });
     }
     throw new ErrorUserUndefined('Передан несуществующий _id карточки.');

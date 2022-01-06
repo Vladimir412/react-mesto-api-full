@@ -6,7 +6,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import React, { useEffect } from 'react';
 import ImagePopup from './ImagePopup';
-import api from '../utils/Api';
+// import api from '../utils/Api';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import EditProfilePopup  from './EditProfilePopup';
 import EditAvatarPopup  from './EditAvatarPopup';
@@ -18,21 +18,44 @@ import { ProtectedRoute } from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import disaster from '../images/disaster.png';
 import success from '../images/success.png';
-// let token;
-
+import Api from '../utils/Api'
 
 
 function App() {
 
+  const api = new Api ({
+    baseUrl: 'http://api.mesto-vladimir.nomoredomains.rocks',
+    authorization: `Bearer ${localStorage.getItem('jwt')}`
+    // userId: '',
+})
 
+// console.log('gg');
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const handleIsLoggedIn = () => {
     setIsLoggedIn(true)
   }
 
+  function handleLogin(email, password) {
+    // console.log(email + ' ' + 'App');
+    apiAuth.login(email, password)
+    .then((res) => {
+        if (res) {
+            localStorage.setItem('jwt', res.token);
+            // console.log('до переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
+            handleIsLoggedIn(true)
+            // console.log('после переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
+            history.push('/main')
+            // console.log('4');
+        }
+    })
+    .catch(err => console.log(err))
+  }
+
+
   const history = useHistory()
 
   const [dataUserForHomePage, setDataUserForHomePage] = React.useState({user: {id:'', email:''}})
+
 
   const tokenCheck = () => {
     if (localStorage.getItem('jwt')) {
@@ -43,9 +66,7 @@ function App() {
           handleIsLoggedIn(true)
           setDataUserForHomePage({
             id: res.user._id,
-            // id: res.data._id,
             email: res.user.email
-            // email: res.data.email
           })
           history.push('/main');
         }
@@ -61,12 +82,13 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({user:{name: "", about: ""}})
 
   React.useEffect(() => {
+    if (localStorage.getItem('jwt')) {
     api.getInfoAboutUser()
     .then((res) => {
       setCurrentUser(res)
     })
     .catch(err => console.log(err))
-  }, [isLoggedIn])
+  }}, [isLoggedIn])
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
   function handleEditProfileClick() {
@@ -107,21 +129,21 @@ function App() {
         })
   }
 
-  function handleLogin(email, password) {
-    apiAuth.login(email, password)
-    .then((res) => {
-        // if (res) {
-        //     localStorage.setItem('jwt', res.token);
-        if (res) {
-            localStorage.setItem('jwt', res.token);
-            handleIsLoggedIn(true)
-            history.push('/main')
-            console.log(isLoggedIn)
-
-        }
-    })
-    .catch(err => console.log(err))
-  }
+  // function handleLogin(email, password) {
+  //   // console.log(email + ' ' + 'App');
+  //   apiAuth.login(email, password)
+  //   .then((res) => {
+  //       if (res) {
+  //           localStorage.setItem('jwt', res.token);
+  //           // console.log('до переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
+  //           handleIsLoggedIn(true)
+  //           // console.log('после переключения' + ' ' + 'состояния Логина:' + isLoggedIn);
+  //           history.push('/main')
+  //           // console.log('4');
+  //       }
+  //   })
+  //   .catch(err => console.log(err))
+  // }
 
   const [selectedCard, setSelectedCard] = React.useState(null)
   function handleCardClick (card) {
@@ -156,9 +178,11 @@ function App() {
 
 
   React.useEffect(() => {
+    if (localStorage.getItem('jwt')) {
     api.getInitialCards()
     .then((data) => {
-      const arrCards = data.map((card) => {
+      const arrCards = data.cards.map((card) => {
+      // const arrCards = data.cards.map((card) => {
         return {
           key: card._id,
           id: card._id,
@@ -170,19 +194,28 @@ function App() {
         }
       })
       setCards(arrCards)
+      // console.log('3');
     })
+    
     .catch(err => console.log(err))
-  }, [isLoggedIn])
+  }}, [isLoggedIn])
 
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    console.log(card);
+    const isLiked = card.likes.some(i => i === currentUser.user._id);
+    // const isLiked = card.likes.some(i => i._id === currentUser.user._id);
+    console.log(isLiked);
     api.updateLikes(isLiked, card.id)
     .then((newCard) => {
-      newCard.key = card.id
-      newCard.id = card.id
+      const newCardFromServer = newCard.card
+      newCardFromServer.key = card.id
+      newCardFromServer.id = card.id
+      // const newCardFromServer = newCard.card
+      console.log(newCardFromServer);
       setCards((state) => {
-        return state.map(c => c.id === card.id ? newCard : c)
+        console.log(state);
+        return state.map(c => c.id === card.id ? newCardFromServer : c)
       })
     })
     .catch(err => console.log(err))
@@ -221,9 +254,11 @@ function App() {
   function handleAddPlaceSubmit(data) {
     api.sentNewCard(data)
     .then((newCard) => {
-      newCard.key = newCard._id
-      newCard.id = newCard._id
-      setCards([newCard, ...cards])
+      const newCardFromServer = newCard.card
+      console.log(newCard);
+      newCardFromServer.key = newCardFromServer._id
+      newCardFromServer.id = newCardFromServer._id
+      setCards([newCardFromServer, ...cards])
       closeAllPopups()
     })
     .catch(res => console.log(res))

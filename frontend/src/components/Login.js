@@ -20,6 +20,7 @@ const Login = (props) => {
         props.onLogin(email, password)
                 setEmail('')
                 setPassword('')
+                // console.log(email + ' ' + 'login');
     }
 
     return (

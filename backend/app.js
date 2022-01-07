@@ -2,7 +2,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');

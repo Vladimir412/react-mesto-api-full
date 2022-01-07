@@ -1,5 +1,5 @@
 
-const BaseUrl = 'http://api.mesto-vladimir.nomoredomains.rocks'
+const BaseUrl = 'https://api.mesto-vladimir.nomoredomains.rocks'
 
    export const register = (email, password) => {
         return fetch(`${BaseUrl}/signup`, {

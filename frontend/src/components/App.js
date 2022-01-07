@@ -24,7 +24,7 @@ import Api from '../utils/Api'
 function App() {
 
   const api = new Api ({
-    baseUrl: 'http://api.mesto-vladimir.nomoredomains.rocks',
+    baseUrl: 'https://api.mesto-vladimir.nomoredomains.rocks',
     authorization: `Bearer ${localStorage.getItem('jwt')}`
 })
 
@@ -178,9 +178,7 @@ function App() {
 
 
   function handleCardLike(card) {
-    console.log(card);
     const isLiked = card.likes.some(i => i === currentUser.user._id);
-    console.log(isLiked);
     api.updateLikes(isLiked, card.id)
     .then((newCard) => {
       const newCardFromServer = newCard.card
@@ -206,7 +204,6 @@ function App() {
   function handleUpdateUser(dataPopup) {
     api.editUserProfile(dataPopup)
     .then((data) => {
-      console.log(data)
      setCurrentUser(data)
      closeAllPopups()
     })

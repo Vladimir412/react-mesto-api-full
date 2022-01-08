@@ -1,8 +1,9 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
-// require('dotenv').config();
-const { NODE_ENV, JWT_SECRET } = process.env;
+require('dotenv').config();
+
+const { NODE_ENV, JWT_SECRET, DEV_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -160,8 +161,7 @@ const login = (req, res, next) => {
       const token = jwt.sign({
         _id: placeForIdUser,
       },
-      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
-      // 'cool', {
+      NODE_ENV === 'production' ? JWT_SECRET : DEV_SECRET, {
         expiresIn: '7d',
       });
       return token;

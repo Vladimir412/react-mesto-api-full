@@ -3,7 +3,6 @@ class Api {
     constructor({baseUrl, authorization}) {
         this._url = baseUrl;
         this._token = authorization;
-        // this._userId = userId;
     }
 
 
@@ -12,9 +11,6 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
             headers: {
-                // "Content-Type": "application/json",
-                // "Accept": "text/html, application/xhtml+xml",
-                // authorization: `Bearer ${localStorage.getItem('jwt')}`
                 authorization: this._token
                 }
         })
@@ -25,8 +21,6 @@ class Api {
         return fetch(`${this._url}/cards`, {
             headers: {
                 authorization: this._token,
-                // "Content-Type": "application/json",
-                // "Accept": "text/html, application/xhtml+xml"
                 }
             })
             .then(this._checkResponse)
@@ -36,7 +30,6 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: {
-                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
@@ -54,7 +47,6 @@ class Api {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: {
-                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
@@ -71,7 +63,6 @@ class Api {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: {
-                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
@@ -87,7 +78,6 @@ class Api {
         return fetch(`${this._url}/cards/${id}/likes`, {
             method: liked ? 'DELETE' : 'PUT',
             headers: {
-                // authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 authorization: this._token,
                 'Content-Type': 'application/json',
                 "Accept": "text/html, application/xhtml+xml"
@@ -103,7 +93,6 @@ class Api {
       return fetch(`${this._url}/cards/${data}`, {
         method: 'DELETE',
         headers: {
-            // authorization: `Bearer ${localStorage.getItem('jwt')}`,
           authorization: this._token
         }
       })
@@ -115,17 +104,4 @@ class Api {
     }
 }
 
-// const api = new Api({
-//     baseUrl: 'https://mesto.nomoreparties.co',
-//     authorization: 'b6b35178-16fa-4e7f-8f36-adf75a68e4d9',
-//     userId: 'cohort-26'
-//   })
-
-// const api = new Api ({
-//     baseUrl: 'http://api.mesto-vladimir.nomoredomains.rocks',
-//     authorization: `Bearer ${localStorage.getItem('jwt')}`
-//     // userId: '',
-// })
-
-// export default api
 export default Api

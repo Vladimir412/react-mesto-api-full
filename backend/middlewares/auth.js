@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 require('dotenv').config();
-const { NODE_ENV, JWT_SECRET} = process.env;
+const { NODE_ENV, JWT_SECRET, DEV_SECRET} = process.env;
 const jwt = require('jsonwebtoken');
 const ErrorCantDeleteCardOtherUser = require('./errors/ErrorCantDeleteCardOtherUser');
 const ErrorNotCorrectDataForLogin = require('./errors/ErrorNotCorrectDataForLogin');
@@ -13,9 +13,10 @@ module.exports = (req, res, next) => {
     throw new ErrorCantDeleteCardOtherUser('Авторизируйтесь');
   }
   const token = authorization.replace('Bearer ', '');
+
   let payloud;
   try {
-    payloud = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+    payloud = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : DEV_SECRET);
   } catch (err) {
     next(new ErrorNotCorrectDataForLogin('Необходима авторизация'));
     next(err);

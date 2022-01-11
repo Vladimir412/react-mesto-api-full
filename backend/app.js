@@ -62,7 +62,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 //   // useCreateIndex: true,
 //   // useFindAndModify: false,
 });
-app.use(express.static(path.join(__dirname, 'express-mesto')));
 
 app.use(requestLogger);
 

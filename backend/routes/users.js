@@ -15,7 +15,7 @@ const auth = require('../middlewares/auth');
 
 const validateLink = (link) => {
   let valid;
-  valid = isUrl(link);
+  valid = isUrl(link, { require_protocol: true });
   if (valid) {
     return link;
   }

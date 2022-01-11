@@ -1,9 +1,8 @@
-/* eslint-disable linebreak-style */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 require('dotenv').config();
 
-const { NODE_ENV, JWT_SECRET, DEV_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -65,7 +64,14 @@ const creatUser = (req, res, next) => {
     }))
     .then((user) => {
       res.status(201).send({
-        data: user,
+        data: {
+          user: {
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+            email: user.email,
+          },
+        },
       });
     })
     .catch((err) => {
@@ -161,7 +167,7 @@ const login = (req, res, next) => {
       const token = jwt.sign({
         _id: placeForIdUser,
       },
-      NODE_ENV === 'production' ? JWT_SECRET : DEV_SECRET, {
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
         expiresIn: '7d',
       });
       return token;

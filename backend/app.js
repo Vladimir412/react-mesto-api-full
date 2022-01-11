@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
